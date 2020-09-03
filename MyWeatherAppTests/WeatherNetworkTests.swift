@@ -57,6 +57,19 @@ class WeatherNetworkTests: XCTestCase {
         wait(for: [exp], timeout: 2.0)
     }
 
+    func testCancellingTask() {
+        let exp = expectation(description: #function)
+        mockNetworkManager.fetch(forecasts: .cached, model: String.self) {(response, error)  in
+            if error != nil {
+                XCTAssertEqual(self.mockSession.urlSessionDataTaskMock.isCancelledCalled, true)
+            } else {
+                XCTFail("decoding not work successfully")
+            }
+            exp.fulfill()
+            }?.cancel()
+        wait(for: [exp], timeout: 2.0)
+    }
+
     func testWeatherForecasts() {
         let liveForecastsEndPoint = WeatherForecasts.live(city: "Berlin")
         XCTAssertEqual(liveForecastsEndPoint.url?.absoluteString,
@@ -103,9 +116,13 @@ struct TestModel: Codable {
 
 //MARK:- Mock Data Task
 class URLSessionDataTaskMock: URLSessionDataTaskProtocol {
-    var isResumedCalled = false
 
+    var isResumedCalled = false
+    var isCancelledCalled = false
     func resume() {
         isResumedCalled = true
+    }
+    func cancel() {
+        isCancelledCalled = true
     }
 }

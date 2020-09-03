@@ -23,7 +23,7 @@ extension URLSession: URLSessionProtocol {
 }
 
 
-protocol URLSessionDataTaskProtocol {
+protocol URLSessionDataTaskProtocol: Cancellable {
     func resume()
 }
 

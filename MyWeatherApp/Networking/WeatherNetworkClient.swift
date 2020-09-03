@@ -12,7 +12,8 @@ typealias NetworkCompletion = ( _ response: Decodable?,_ error: NetworkError?) -
 /// protocol for the weather api client
 protocol WeatherNetworkClientProtocol {
     var session: URLSessionProtocol { get }
-    func fetch<T:Decodable>(forecasts: WeatherForecasts, model: T.Type, completion: @escaping NetworkCompletion)
+    @discardableResult
+    func fetch<T:Decodable>(forecasts: WeatherForecasts, model: T.Type, completion: @escaping NetworkCompletion) -> Cancellable?
 }
 
 /// concrete implementation for the weather client protocol
@@ -25,15 +26,16 @@ class WeatherNetworkClient: WeatherNetworkClientProtocol {
 
 //MARK:- fetch implementation
 extension WeatherNetworkClient {
+    @discardableResult
     func fetch<T:Decodable>(forecasts: WeatherForecasts,
                             model: T.Type,
-                            completion: @escaping NetworkCompletion) {
+                            completion: @escaping NetworkCompletion) -> Cancellable? {
     
         guard let url = forecasts.url else {
             DispatchQueue.main.async {
                 completion(nil, NetworkError.missingURL)
             }
-            return
+            return nil
         }
 
         let currentTask = session.dataTask(with: url,
@@ -54,7 +56,9 @@ extension WeatherNetworkClient {
                 }
             }
         })
+
         currentTask.resume()
+        return currentTask
     }
 }
 /// WeatherEndPoint represent the available end points for the api
@@ -69,4 +73,7 @@ enum WeatherForecasts {
             return Bundle.main.url(forResource: "forecasts_stub",withExtension: "json")
         }
     }
+}
+protocol Cancellable {
+    func cancel()
 }
