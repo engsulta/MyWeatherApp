@@ -13,7 +13,7 @@ typealias NetworkCompletion = ( _ response: Decodable?,_ error: NetworkError?) -
 protocol WeatherNetworkClientProtocol {
     var session: URLSessionProtocol { get }
     @discardableResult
-    func fetch<T:Decodable>(forecasts: WeatherForecasts, model: T.Type, completion: @escaping NetworkCompletion) -> Cancellable?
+    func fetch<T:Decodable>(forecasts: WeatherForecastsMode, model: T.Type, completion: @escaping NetworkCompletion) -> Cancellable?
 }
 
 /// concrete implementation for the weather client protocol
@@ -27,7 +27,7 @@ class WeatherNetworkClient: WeatherNetworkClientProtocol {
 //MARK:- fetch implementation
 extension WeatherNetworkClient {
     @discardableResult
-    func fetch<T:Decodable>(forecasts: WeatherForecasts,
+    func fetch<T:Decodable>(forecasts: WeatherForecastsMode,
                             model: T.Type,
                             completion: @escaping NetworkCompletion) -> Cancellable? {
     
@@ -62,9 +62,10 @@ extension WeatherNetworkClient {
     }
 }
 /// WeatherEndPoint represent the available end points for the api
-enum WeatherForecasts {
+enum WeatherForecastsMode: Equatable {
     case live(city: String)
     case cached
+
     var url: URL? {
         switch self {
         case let .live(city):

@@ -71,11 +71,11 @@ class WeatherNetworkTests: XCTestCase {
     }
 
     func testWeatherForecasts() {
-        let liveForecastsEndPoint = WeatherForecasts.live(city: "Berlin")
+        let liveForecastsEndPoint = WeatherForecastsMode.live(city: "Berlin")
         XCTAssertEqual(liveForecastsEndPoint.url?.absoluteString,
                        "\(Constants.baseURL)/forecast?q=Berlin&APPID=\(Constants.AppID)")
 
-        let cachedForecastsEndPoint = WeatherForecasts.cached
+        let cachedForecastsEndPoint = WeatherForecastsMode.cached
         XCTAssert(cachedForecastsEndPoint.url?.isFileURL ?? false)
     }
 

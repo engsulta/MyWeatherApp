@@ -9,24 +9,39 @@
 import Foundation
 
 struct ForecastsResponseModel : Decodable {
-    let list : [List]?
+    let list : [ForecastDetails]?
 
     enum CodingKeys: String, CodingKey {
         case list = "list"
     }
 }
 
-struct List : Decodable {
-    let time : Int?
+struct ForecastDetails : Decodable {
+    let time : Double?
     let timeTxt : String?
-    let main : Main?
+    let tempreatureMain : TempreatureMain?
     let weather : [Weather]?
 
     enum CodingKeys: String, CodingKey {
         case time = "dt"
         case timeTxt = "dt_txt"
-        case main
+        case tempreatureMain = "main"
         case weather = "weather"
+    }
+
+    // put it in extension
+    func mapToViewModel() -> ForecastCellViewModel {
+        let time = timeTxt?.components(separatedBy: " ")[1] ?? ""// make it save
+        let date = timeTxt?.components(separatedBy: " ").first ?? ""
+        let icon = weather?.first?.icon ?? ""
+        let weatherDesc = weather?.first?.descriptionField ?? ""
+        let tempreature = tempreatureMain?.temp ?? 0
+        return ForecastCellViewModel(timeInSec: self.time ?? 0,
+                                     time: time,
+                                     date: date,
+                                     icon: icon,
+                                     weather:weatherDesc,
+                                     temperature: "\(tempreature)")
     }
 }
 
@@ -45,7 +60,7 @@ struct Weather : Codable {
 }
 
 
-struct Main : Codable {
+struct TempreatureMain : Codable {
 
     let temp : Float?
     let tempMax : Float?
