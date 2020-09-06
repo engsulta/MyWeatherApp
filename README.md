@@ -25,6 +25,9 @@ MyWeather app is a simple demo app that shows weather forecasts for the upcoming
 
 - Network layer: I have built it to be testable and cancellable so when user press cached then live multiple times the previous request will be canceled.
 
+### resources
+
+use `forecasts_stub.json` in resources group if you want to change the cached forecasts
 
 ### Some points that may need some enhancement and refining:
 

@@ -11,13 +11,9 @@ import UIKit
 class ForecastsTableViewCell: UITableViewCell {
     @IBOutlet weak var forecastsCollectionView: UICollectionView!
     @IBOutlet weak var dayTitle: UILabel!
-
-    let inset: CGFloat = 0
-    let spacing: CGFloat = 0
-    let forecastsEstimatedWidth: CGFloat = 100
-    let forecastsIntermidiateSpacing: CGFloat = 0
-    let forecastItemCellNibName = "forecastItemCell"
+    var isShimmeringRunning = false
     let forecastItmeCellId = "ForecastItemCollectionViewCellID"
+    let forecastItemShimmerId = "forecastItemShimmerId"
 
     var forecastsVM: [ForecastCellViewModel] = [] {
         didSet {
@@ -36,6 +32,9 @@ class ForecastsTableViewCell: UITableViewCell {
         forecastsCollectionView.delegate = self
         forecastsCollectionView.dataSource = self
         forecastsCollectionView.accessibilityIdentifier = "ForeCastMainCard"
+        let shimmerCell = UINib(nibName: "ForecastItemShimmerCell", bundle: Bundle.main)
+        forecastsCollectionView.register(shimmerCell,
+                                         forCellWithReuseIdentifier: forecastItemShimmerId)
     }
 }
 
@@ -46,9 +45,15 @@ extension ForecastsTableViewCell: UICollectionViewDelegate, UICollectionViewData
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: forecastItmeCellId, for: indexPath) as! ForecastItemCollectionViewCell
-        cell.configure(with: forecastsVM[indexPath.row])
-        return cell
+        if isShimmeringRunning {
+            dayTitle.text = ""
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: forecastItemShimmerId, for: indexPath) as! ForecastItemShimmerCell
+            return cell
+        }else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: forecastItmeCellId, for: indexPath) as! ForecastItemCollectionViewCell
+            cell.configure(with: forecastsVM[indexPath.row])
+            return cell
+        }
     }
 
 }

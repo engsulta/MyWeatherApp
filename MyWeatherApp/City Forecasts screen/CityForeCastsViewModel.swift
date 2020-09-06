@@ -16,7 +16,7 @@ class CityForeCastsViewModel {
 
     var reloadTableClosure: ((Bool)-> Void)?
     var availableDays : [String] = []
-
+    var shimmerModelRunning: Bool = false
     var forecastCellViewModels: [ForecastCellViewModel] = [] {
         didSet {
             availableDays = forecastCellViewModels.map {$0.date}.unique()
@@ -31,6 +31,9 @@ class CityForeCastsViewModel {
             }
         }
     }
+    init() {
+       setupShimmeringModel()
+    }
 
     func fetchForcasts() {
         currentTask = nil
@@ -39,6 +42,7 @@ class CityForeCastsViewModel {
             guard let self = self else {
                 return
             }
+            self.shimmerModelRunning = false
             guard error == nil,
                 let forcasts = forcastsModel as? ForecastsResponseModel,
                 let list = forcasts.list else {
@@ -58,9 +62,26 @@ class CityForeCastsViewModel {
 
 }
 
+extension CityForeCastsViewModel {
+    func setupShimmeringModel() {
+        let filePath = Bundle.main.path(forResource: "forecasts_stub",
+                                        ofType: "json") ?? ""
+        guard let data = try? Data(contentsOf: URL(fileURLWithPath: filePath),
+                                   options: .alwaysMapped) else { return }
+        let decoder = JSONDecoder()
+        guard let model = try? decoder.decode(ForecastsResponseModel.self, from: data).list  else {return}
+        DispatchQueue.main.async {
+            self.forecastCellViewModels = model.compactMap { $0.mapToViewModel()}
+            self.shimmerModelRunning = true
+        }
+    }
+}
+
+//MARK:- Sequence unique
 public extension Sequence where Iterator.Element: Hashable {
     func unique() -> [Iterator.Element] {
         var seen: Set<Iterator.Element> = []
         return filter { seen.insert($0).inserted }
     }
 }
+

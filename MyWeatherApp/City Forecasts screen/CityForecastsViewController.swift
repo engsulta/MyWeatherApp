@@ -80,6 +80,7 @@ extension CityForecastsViewController {
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "forecastsContainerCell", for: indexPath) as? ForecastsTableViewCell else { return UITableViewCell()}
+        cell.isShimmeringRunning = viewModel.shimmerModelRunning
         cell.forecastsVM = viewModel.forcasts(at: indexPath.row)
         return cell
     }
