@@ -8,7 +8,6 @@
 
 import XCTest
 @testable import MyWeatherApp
-//Classes and class members marked as public behave as if they were marked open
 
 class CityForecastsViewControllerTests: XCTestCase {
     var viewController: CityForecastsViewController!
@@ -36,6 +35,12 @@ class CityForecastsViewControllerTests: XCTestCase {
         viewController.setupNavButton()
         XCTAssertEqual(viewController.title, "Berlin Weather" )
         XCTAssertNotNil(viewController.navigationItem.rightBarButtonItem)
+    }
+    func testMapForecast() {
+        let forcastDetails = ForecastDetails(time: 1599242400, timeTxt: "2020-09-04 18:00:00", tempreatureMain: nil, weather: nil)
+        let output = forcastDetails.mapToViewModel()
+        XCTAssertEqual(output.date, "2020-09-04")
+        XCTAssertEqual(output.time, "18:00:00")
     }
     func testInitVM() {
         let exp = expectation(description: #function)

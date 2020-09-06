@@ -90,6 +90,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		353AFDDC2504EE390056F743 /* cells */ = {
+			isa = PBXGroup;
+			children = (
+				353AFDD625027DC30056F743 /* ForecastsTableViewCell.swift */,
+				353AFDD8250292040056F743 /* ForecastItemCollectionViewCell.swift */,
+			);
+			path = cells;
+			sourceTree = "<group>";
+		};
 		354318BA250050090024CD90 = {
 			isa = PBXGroup;
 			children = (
@@ -114,7 +123,7 @@
 		354318C5250050090024CD90 /* MyWeatherApp */ = {
 			isa = PBXGroup;
 			children = (
-				354318FA2500562D0024CD90 /* MainScreen */,
+				354318FA2500562D0024CD90 /* City Forecasts screen */,
 				354318FB250056410024CD90 /* Networking */,
 				354318F72500541A0024CD90 /* Resources */,
 				354318F6250051BD0024CD90 /* Support Files */,
@@ -159,16 +168,15 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		354318FA2500562D0024CD90 /* MainScreen */ = {
+		354318FA2500562D0024CD90 /* City Forecasts screen */ = {
 			isa = PBXGroup;
 			children = (
 				354318CA250050090024CD90 /* CityForecastsViewController.swift */,
 				353AFDD42501855F0056F743 /* CityForeCastsViewModel.swift */,
 				354318CC250050090024CD90 /* Main.storyboard */,
-				353AFDD625027DC30056F743 /* ForecastsTableViewCell.swift */,
-				353AFDD8250292040056F743 /* ForecastItemCollectionViewCell.swift */,
+				353AFDDC2504EE390056F743 /* cells */,
 			);
-			path = MainScreen;
+			path = "City Forecasts screen";
 			sourceTree = "<group>";
 		};
 		354318FB250056410024CD90 /* Networking */ = {

@@ -12,27 +12,57 @@ class CityForecastsViewController: UITableViewController {
 
     var viewModel: CityForeCastsViewModel = CityForeCastsViewModel()
     lazy var modeButton: UIButton = {createBarButton()}()
-    var indicator = UIActivityIndicatorView()
+    lazy var statusBarLabel: UILabel = {statusLabel()}()
+
     var isLive = false {
         didSet {
             modeButton.setTitle(isLive ? "live" : "cached", for: .normal)
             viewModel.mode = isLive ? .live(city: "Berlin"): .cached
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.modeButton.isEnabled = true
+            }
         }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavButton()
+        setupTableView()
         initVM()
     }
 
+    func setupTableView() {
+        tableView.refreshControl =  UIRefreshControl()
+        tableView.refreshControl?.tintColor = UIColor.systemGray
+        tableView.refreshControl?.addTarget(self, action: #selector(pullToRefreshHandler), for: .valueChanged)
+    }
+
+    /// start initialize view model
     func initVM(completion: (() -> Void)? = nil) {
         viewModel.fetchForcasts()
-        viewModel.reloadTableClosure = { [weak self] in
-            self?.tableView.reloadData()
+        viewModel.reloadTableClosure = {  [weak self] success in
+            guard let self = self else { return }
+            guard success else {
+                self.handleFailure()
+                return
+            }
+            self.handleSucess()
             completion?()
         }
     }
+
+    func handleFailure() {
+        statusBarLabel.text = "loading failed"
+        statusBarLabel.sizeToFit()
+        tableView.refreshControl?.endRefreshing()
+    }
+
+    func handleSucess() {
+        tableView.reloadData()
+        tableView.refreshControl?.endRefreshing()
+        statusBarLabel.text = ""
+    }
+
 }
 
 //MARK:- table view datasource
@@ -44,7 +74,7 @@ extension CityForecastsViewController {
         return viewModel.availableDays.count
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "forecastsContainerCell", for: indexPath) as! ForecastsTableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "forecastsContainerCell", for: indexPath) as? ForecastsTableViewCell else { return UITableViewCell()}
         cell.forecastsVM = viewModel.forcasts(at: indexPath.row)
         return cell
     }
@@ -56,23 +86,32 @@ extension CityForecastsViewController {
 extension CityForecastsViewController {
     func setupNavButton() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: modeButton)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: statusBarLabel)
         title = "Berlin Weather"
         navigationController?.navigationBar.prefersLargeTitles = true
+
     }
+
     @objc func switchMode() {
+        modeButton.isEnabled = false
         isLive = !isLive
     }
+    @objc func pullToRefreshHandler() {
+        viewModel.fetchForcasts()
+    }
+
     func createBarButton() -> UIButton {
         let button = UIButton(type: .system)
         button.setTitle("cached", for: .normal)
         button.addTarget(self, action: #selector(switchMode), for: .touchUpInside)
         return button
     }
-
-    func activityIndicator() {
-        indicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-        indicator.style = UIActivityIndicatorView.Style.large
-        indicator.center = self.view.center
-        self.tableView.addSubview(indicator)
+    func statusLabel() -> UILabel {
+        let label = UILabel()
+        label.text = ""
+        label.font = UIFont.systemFont(ofSize: 12)
+        label.textColor = .red
+        label.sizeToFit()
+        return label
     }
 }

@@ -29,3 +29,12 @@ class ForecastItemCollectionViewCell: UICollectionViewCell {
 
     }
 }
+
+struct ForecastCellViewModel {
+    let timeInSec: Double
+    let time: String
+    let date: String
+    let icon: String
+    let weather: String
+    let temperature: String
+}

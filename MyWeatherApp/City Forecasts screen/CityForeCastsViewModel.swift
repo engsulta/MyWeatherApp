@@ -7,27 +7,20 @@
 //
 
 import Foundation
-struct ForecastCellViewModel {
-    let timeInSec: Double
-    let time: String
-    let date: String
-    let icon: String
-    let weather: String
-    let temperature: String
-}
+
 class CityForeCastsViewModel {
 
     /// we can inject testable provider here
     var provider: WeatherNetworkClientProtocol = WeatherNetworkClient()
     var currentTask: Cancellable?
 
-    var reloadTableClosure: (()-> Void)?
+    var reloadTableClosure: ((Bool)-> Void)?
     var availableDays : [String] = []
 
     var forecastCellViewModels: [ForecastCellViewModel] = [] {
         didSet {
             availableDays = forecastCellViewModels.map {$0.date}.unique()
-            reloadTableClosure?()
+            reloadTableClosure?(true)
         }
     }
 
@@ -43,10 +36,15 @@ class CityForeCastsViewModel {
         currentTask = nil
         currentTask = provider.fetch(forecasts: mode, model: ForecastsResponseModel.self) { [weak self] (forcastsModel, error) in
 
-            guard let self = self,
-                error == nil,
+            guard let self = self else {
+                return
+            }
+            guard error == nil,
                 let forcasts = forcastsModel as? ForecastsResponseModel,
-                let list = forcasts.list else { return }
+                let list = forcasts.list else {
+                    self.reloadTableClosure?(false)
+                    return
+            }
 
             self.forecastCellViewModels = list.compactMap { $0.mapToViewModel()}
         }
