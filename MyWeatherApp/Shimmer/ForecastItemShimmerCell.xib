@@ -54,7 +54,6 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="2ry-27-dWA" secondAttribute="trailing" constant="20" id="JnS-yF-RX6"/>
                             <constraint firstAttribute="trailing" secondItem="lfQ-gF-b58" secondAttribute="trailing" constant="60" id="Nol-Fm-sZo"/>
-                            <constraint firstAttribute="height" constant="250" id="S45-XZ-qEd"/>
                             <constraint firstItem="FuI-Fc-yi1" firstAttribute="leading" secondItem="LPK-pj-QYg" secondAttribute="leading" constant="20" id="b6W-y7-DL2"/>
                             <constraint firstItem="lfQ-gF-b58" firstAttribute="top" secondItem="LPK-pj-QYg" secondAttribute="top" constant="20" id="fRT-P4-Y3G"/>
                             <constraint firstItem="lfQ-gF-b58" firstAttribute="leading" secondItem="LPK-pj-QYg" secondAttribute="leading" constant="20" id="kRn-PC-2go"/>
@@ -62,7 +61,6 @@
                             <constraint firstAttribute="bottom" secondItem="FuI-Fc-yi1" secondAttribute="bottom" constant="25" id="o1B-0j-I7f"/>
                             <constraint firstItem="lxb-1k-9PW" firstAttribute="centerX" secondItem="LPK-pj-QYg" secondAttribute="centerX" id="uke-ln-NSf"/>
                             <constraint firstAttribute="bottom" secondItem="2ry-27-dWA" secondAttribute="bottom" constant="20" id="vFa-eX-Bvg"/>
-                            <constraint firstAttribute="width" constant="245" id="vPj-uG-iOW"/>
                         </constraints>
                     </view>
                 </subviews>

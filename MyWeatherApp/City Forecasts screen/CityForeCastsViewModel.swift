@@ -63,9 +63,11 @@ class CityForeCastsViewModel {
 
 }
 
+
+//MARK:- shimmiring model loading
 extension CityForeCastsViewModel {
     func loadShimmeringModel() {
-        let filePath = Bundle.main.path(forResource: "forecasts_stub",
+        let filePath = Bundle.main.path(forResource: "forecasts_shimmer_model",
                                         ofType: "json") ?? ""
         guard let data = try? Data(contentsOf: URL(fileURLWithPath: filePath),
                                    options: .alwaysMapped) else { return }
@@ -73,14 +75,6 @@ extension CityForeCastsViewModel {
         guard let model = try? decoder.decode(ForecastsResponseModel.self, from: data).list  else {return}
         self.forecastCellViewModels = model.compactMap { $0.mapToViewModel()}
         self.shouldShowShimmer = true
-    }
-}
-
-//MARK:- Sequence unique
-public extension Sequence where Iterator.Element: Hashable {
-    func unique() -> [Iterator.Element] {
-        var seen: Set<Iterator.Element> = []
-        return filter { seen.insert($0).inserted }
     }
 }
 

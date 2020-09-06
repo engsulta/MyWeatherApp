@@ -15,6 +15,10 @@
 		353AFDDF250511510056F743 /* ShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353AFDDE250511510056F743 /* ShimmerView.swift */; };
 		353AFDE2250513420056F743 /* ForecastItemShimmerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353AFDE0250513420056F743 /* ForecastItemShimmerCell.swift */; };
 		353AFDE3250513420056F743 /* ForecastItemShimmerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 353AFDE1250513420056F743 /* ForecastItemShimmerCell.xib */; };
+		353AFDE62505451A0056F743 /* Sequence+unique.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353AFDE52505451A0056F743 /* Sequence+unique.swift */; };
+		353AFDEA2505519C0056F743 /* ForecastsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 353AFDE82505519C0056F743 /* ForecastsTableViewCell.xib */; };
+		353AFDEE2505543D0056F743 /* ForecastItemCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 353AFDEC2505543D0056F743 /* ForecastItemCollectionViewCell.xib */; };
+		353AFDF025055D5B0056F743 /* forecasts_shimmer_model.json in Resources */ = {isa = PBXBuildFile; fileRef = 353AFDEF25055D5B0056F743 /* forecasts_shimmer_model.json */; };
 		354318C7250050090024CD90 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354318C6250050090024CD90 /* AppDelegate.swift */; };
 		354318CB250050090024CD90 /* CityForecastsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354318CA250050090024CD90 /* CityForecastsViewController.swift */; };
 		354318CE250050090024CD90 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 354318CC250050090024CD90 /* Main.storyboard */; };
@@ -53,6 +57,10 @@
 		353AFDDE250511510056F743 /* ShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerView.swift; sourceTree = "<group>"; };
 		353AFDE0250513420056F743 /* ForecastItemShimmerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastItemShimmerCell.swift; sourceTree = "<group>"; };
 		353AFDE1250513420056F743 /* ForecastItemShimmerCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ForecastItemShimmerCell.xib; sourceTree = "<group>"; };
+		353AFDE52505451A0056F743 /* Sequence+unique.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+unique.swift"; sourceTree = "<group>"; };
+		353AFDE82505519C0056F743 /* ForecastsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ForecastsTableViewCell.xib; sourceTree = "<group>"; };
+		353AFDEC2505543D0056F743 /* ForecastItemCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ForecastItemCollectionViewCell.xib; sourceTree = "<group>"; };
+		353AFDEF25055D5B0056F743 /* forecasts_shimmer_model.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = forecasts_shimmer_model.json; sourceTree = "<group>"; };
 		354318C3250050090024CD90 /* MyWeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyWeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		354318C6250050090024CD90 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		354318CA250050090024CD90 /* CityForecastsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityForecastsViewController.swift; sourceTree = "<group>"; };
@@ -100,7 +108,9 @@
 			isa = PBXGroup;
 			children = (
 				353AFDD625027DC30056F743 /* ForecastsTableViewCell.swift */,
+				353AFDE82505519C0056F743 /* ForecastsTableViewCell.xib */,
 				353AFDD8250292040056F743 /* ForecastItemCollectionViewCell.swift */,
+				353AFDEC2505543D0056F743 /* ForecastItemCollectionViewCell.xib */,
 			);
 			path = cells;
 			sourceTree = "<group>";
@@ -113,6 +123,14 @@
 				353AFDE1250513420056F743 /* ForecastItemShimmerCell.xib */,
 			);
 			path = Shimmer;
+			sourceTree = "<group>";
+		};
+		353AFDE4250544F70056F743 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				353AFDE52505451A0056F743 /* Sequence+unique.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		354318BA250050090024CD90 = {
@@ -181,6 +199,7 @@
 				354318D12500500A0024CD90 /* LaunchScreen.storyboard */,
 				354318CF2500500A0024CD90 /* Assets.xcassets */,
 				354318F8250054760024CD90 /* forecasts_stub.json */,
+				353AFDEF25055D5B0056F743 /* forecasts_shimmer_model.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -192,6 +211,7 @@
 				353AFDD42501855F0056F743 /* CityForeCastsViewModel.swift */,
 				354318CC250050090024CD90 /* Main.storyboard */,
 				353AFDDC2504EE390056F743 /* cells */,
+				353AFDE4250544F70056F743 /* Extensions */,
 			);
 			path = "City Forecasts screen";
 			sourceTree = "<group>";
@@ -318,10 +338,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				353AFDEE2505543D0056F743 /* ForecastItemCollectionViewCell.xib in Resources */,
 				354318D32500500A0024CD90 /* LaunchScreen.storyboard in Resources */,
 				354318D02500500A0024CD90 /* Assets.xcassets in Resources */,
 				354318CE250050090024CD90 /* Main.storyboard in Resources */,
 				354318F9250054760024CD90 /* forecasts_stub.json in Resources */,
+				353AFDF025055D5B0056F743 /* forecasts_shimmer_model.json in Resources */,
+				353AFDEA2505519C0056F743 /* ForecastsTableViewCell.xib in Resources */,
 				353AFDE3250513420056F743 /* ForecastItemShimmerCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -348,6 +371,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				353AFDD52501855F0056F743 /* CityForeCastsViewModel.swift in Sources */,
+				353AFDE62505451A0056F743 /* Sequence+unique.swift in Sources */,
 				354318FF250058800024CD90 /* WeatherNetworkClient.swift in Sources */,
 				35431901250059660024CD90 /* NetworkHelperProtocols.swift in Sources */,
 				354318CB250050090024CD90 /* CityForecastsViewController.swift in Sources */,
@@ -530,6 +554,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 563L3XHGNY;
 				INFOPLIST_FILE = "MyWeatherApp/Support Files/Info.plist";
@@ -539,6 +564,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dev.hamza.MyWeatherApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -548,8 +574,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 563L3XHGNY;
+				DEVELOPMENT_TEAM = X78LL62Y2P;
 				INFOPLIST_FILE = "MyWeatherApp/Support Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -557,6 +584,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dev.hamza.MyWeatherApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

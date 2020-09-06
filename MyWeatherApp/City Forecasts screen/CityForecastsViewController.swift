@@ -13,7 +13,7 @@ class CityForecastsViewController: UITableViewController {
     var viewModel: CityForeCastsViewModel = CityForeCastsViewModel()
     lazy var modeButton: UIButton = {createBarButton()}()
     lazy var statusBarLabel: UILabel = {statusLabel()}()
-
+    let forecastTableCellId = "ForecastsTableViewCell"
     var isLive = true {
         didSet {
             toggleDataSource()
@@ -31,6 +31,9 @@ class CityForecastsViewController: UITableViewController {
         tableView.refreshControl =  UIRefreshControl()
         tableView.refreshControl?.tintColor = UIColor.systemGray
         tableView.refreshControl?.addTarget(self, action: #selector(pullToRefreshHandler), for: .valueChanged)
+        let forecastTableCell = UINib(nibName: forecastTableCellId, bundle: Bundle.main)
+        tableView.register(forecastTableCell,
+                           forCellReuseIdentifier: forecastTableCellId)
     }
 
     /// start initialize view model
@@ -79,7 +82,7 @@ extension CityForecastsViewController {
         return viewModel.availableDays.count
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "forecastsContainerCell", for: indexPath) as? ForecastsTableViewCell else { return UITableViewCell()}
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: forecastTableCellId, for: indexPath) as? ForecastsTableViewCell else { return UITableViewCell()}
         cell.isShimmeringRunning = viewModel.shouldShowShimmer
         cell.forecastsVM = viewModel.forcasts(at: indexPath.row)
         return cell
@@ -88,7 +91,7 @@ extension CityForecastsViewController {
 
 
 
-//MARK:- Setup Menu button
+//MARK:- Setup Menu buttons
 extension CityForecastsViewController {
     func setupNavButton() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: modeButton)
@@ -102,6 +105,7 @@ extension CityForecastsViewController {
         modeButton.isEnabled = false
         isLive = !isLive
     }
+
     @objc func pullToRefreshHandler() {
         viewModel.fetchForcasts()
     }

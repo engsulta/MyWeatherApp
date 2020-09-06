@@ -12,7 +12,7 @@ class ForecastsTableViewCell: UITableViewCell {
     @IBOutlet weak var forecastsCollectionView: UICollectionView!
     @IBOutlet weak var dayTitle: UILabel!
     var isShimmeringRunning = false
-    let forecastItmeCellId = "ForecastItemCollectionViewCellID"
+    let forecastItmeCellId = "ForecastItemCollectionViewCell"
     let forecastItemShimmerId = "forecastItemShimmerId"
 
     var forecastsVM: [ForecastCellViewModel] = [] {
@@ -32,12 +32,14 @@ class ForecastsTableViewCell: UITableViewCell {
         forecastsCollectionView.delegate = self
         forecastsCollectionView.dataSource = self
         forecastsCollectionView.accessibilityIdentifier = "ForeCastMainCard"
+        let forecastCell = UINib(nibName: forecastItmeCellId, bundle: Bundle.main)
+        forecastsCollectionView.register(forecastCell,
+                                         forCellWithReuseIdentifier: forecastItmeCellId)
         let shimmerCell = UINib(nibName: "ForecastItemShimmerCell", bundle: Bundle.main)
         forecastsCollectionView.register(shimmerCell,
                                          forCellWithReuseIdentifier: forecastItemShimmerId)
     }
 }
-
 
 extension ForecastsTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -55,5 +57,10 @@ extension ForecastsTableViewCell: UICollectionViewDelegate, UICollectionViewData
             return cell
         }
     }
+}
 
+extension ForecastsTableViewCell: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 250, height: collectionView.frame.height)
+    }
 }

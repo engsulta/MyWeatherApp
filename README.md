@@ -35,16 +35,12 @@ use `forecasts_stub.json` in resources group if you want to change the cached fo
 
 - Network request: as we fetch one city forecasts so I did not build the request protocol to be general for any endpoint
 
-- Shimmering views: it is good to show shimmering views while the screen starts loading for first time especially in case of the poor network but while switching will keep the cached presented 
-fore simplicity reason I did not handle shimmering views but it is easy to do and put the shimmering cell instead of the actual one until the table loads and then dequeued the real one.
-
-- cell xibs: I usually prefer to use separate xib for each table/collection cell and not to be in the storyboard to be reusable but for simplicity, in this demonstration app I made it implicitly in the storyboard.
+- Data Repository layer: in the demo app the VM responsible for calling the network provider to fetch the response but thats as the app is a simple use case so i did not tend to add the data repository abstractoin layer that may be better in dealing with the data remote or cached and make handle all caching needed.
 
 
 ![width=20%](Images/1.png)
 ![width=20%](Images/2.png)
-![width=20%](Images/3.gif)
 
-  
+  ### Test Cases You can check: 
   
 
