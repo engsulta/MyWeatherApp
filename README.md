@@ -30,23 +30,22 @@ MyWeather app is a simple demo app that shows weather forecasts for the upcoming
 
 ### resources
 
-use `forecasts_stub.json` in resources group if you want to change the cached forecasts
+use `forecasts_stub.json` in the resources group if you want to change the cached forecasts
 
 ### Some points that may need some enhancement and refining:
 
 - Network request: as we fetch one city forecasts so I did not build the request protocol to be general for any endpoint
 
-- Data Repository layer: in the demo app the VM responsible for calling the network provider to fetch the response but thats as the app is a simple use case so i did not tend to add the data repository abstractoin layer that may be better in dealing with the data remote or cached and make handle all caching needed.
+- Data Repository layer: in the demo app the VM responsible for calling the network provider to fetch the response but that as the app is a simple use case so I did not tend to add the data repository abstraction layer that may be better in dealing with the data remote or cached and make handle all caching needed.
 
-- normal senario 
+- normal scenario 
 ![width=20%](Images/1.png)
 - dark mode + pull to refresh
 ![width=20%](Images/2.png)
-- shimmring
+- shimmering
 ![width=20%](Images/3.png)
 - error while start app
 ![width=20%](Images/4.png)
 - demo
 ![width=20%](Images/demo.gif)
   
-
