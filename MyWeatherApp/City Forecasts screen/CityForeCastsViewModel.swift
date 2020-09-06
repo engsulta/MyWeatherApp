@@ -24,7 +24,7 @@ class CityForeCastsViewModel {
         }
     }
 
-    var mode: WeatherForecastsMode = .cached {
+    var mode: WeatherForecastsMode = .live(city: "Berlin") {
         didSet {
             if mode != oldValue {
                 fetchForcasts()

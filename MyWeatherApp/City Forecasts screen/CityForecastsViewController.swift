@@ -14,13 +14,9 @@ class CityForecastsViewController: UITableViewController {
     lazy var modeButton: UIButton = {createBarButton()}()
     lazy var statusBarLabel: UILabel = {statusLabel()}()
 
-    var isLive = false {
+    var isLive = true {
         didSet {
-            modeButton.setTitle(isLive ? "live" : "cached", for: .normal)
-            viewModel.mode = isLive ? .live(city: "Berlin"): .cached
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                self.modeButton.isEnabled = true
-            }
+            toggleDataSource()
         }
     }
 
@@ -51,17 +47,26 @@ class CityForecastsViewController: UITableViewController {
         }
     }
 
-    func handleFailure() {
+    fileprivate func handleFailure() {
         statusBarLabel.text = "loading failed"
         statusBarLabel.sizeToFit()
         tableView.refreshControl?.endRefreshing()
     }
 
-    func handleSucess() {
+    fileprivate func handleSucess() {
         tableView.reloadData()
         tableView.refreshControl?.endRefreshing()
         statusBarLabel.text = ""
     }
+    fileprivate func toggleDataSource() {
+        modeButton.setTitle(isLive ? "live" : "cached", for: .normal)
+        modeButton.sizeToFit()
+        viewModel.mode = isLive ? .live(city: "Berlin"): .cached
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.modeButton.isEnabled = true
+        }
+    }
+
 
 }
 
@@ -102,7 +107,7 @@ extension CityForecastsViewController {
 
     func createBarButton() -> UIButton {
         let button = UIButton(type: .system)
-        button.setTitle("cached", for: .normal)
+        button.setTitle("live", for: .normal)
         button.addTarget(self, action: #selector(switchMode), for: .touchUpInside)
         return button
     }

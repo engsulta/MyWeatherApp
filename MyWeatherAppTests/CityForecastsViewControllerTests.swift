@@ -27,9 +27,9 @@ class CityForecastsViewControllerTests: XCTestCase {
     }
 
     func testSwitch() {
-        XCTAssertEqual(viewController.viewModel.mode, .cached )
-        viewController.switchMode()
         XCTAssertEqual(viewController.viewModel.mode, .live(city: "Berlin") )
+        viewController.switchMode()
+        XCTAssertEqual(viewController.viewModel.mode, .cached )
     }
     func testSetupNavButton() {
         viewController.setupNavButton()
