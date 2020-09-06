@@ -20,7 +20,8 @@ MyWeather app is a simple demo app that shows weather forecasts for the upcoming
 - browse app offline with the cached
 - dark mode implemented
 - Shimmering
-- handling error while fetching: I just added a label with loading failed on the right top of the screen in case of failed to fetch live response
+- no network error handling for 
+- documentation 
 
 ### native components:
 
@@ -37,10 +38,15 @@ use `forecasts_stub.json` in resources group if you want to change the cached fo
 
 - Data Repository layer: in the demo app the VM responsible for calling the network provider to fetch the response but thats as the app is a simple use case so i did not tend to add the data repository abstractoin layer that may be better in dealing with the data remote or cached and make handle all caching needed.
 
-
+- normal senario 
 ![width=20%](Images/1.png)
+- dark mode + pull to refresh
 ![width=20%](Images/2.png)
-
-  ### Test Cases You can check: 
+- shimmring
+![width=20%](Images/3.png)
+- error while start app
+![width=20%](Images/4.png)
+- demo
+![width=20%](Images/demo.gif)
   
 

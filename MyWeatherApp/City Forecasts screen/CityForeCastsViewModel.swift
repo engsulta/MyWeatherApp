@@ -15,6 +15,7 @@ class CityForeCastsViewModel {
     var currentTask: Cancellable?
 
     var reloadTableClosure: ((Bool)-> Void)?
+    var showNetworkError: (()-> Void)?
     var availableDays : [String] = []
     var shouldShowShimmer: Bool = false
     var forecastCellViewModels: [ForecastCellViewModel] = [] {
@@ -43,14 +44,18 @@ class CityForeCastsViewModel {
             guard let self = self else {
                 return
             }
-            self.shouldShowShimmer = false
+
             guard error == nil,
                 let forcasts = forcastsModel as? ForecastsResponseModel,
                 let list = forcasts.list else {
                     self.reloadTableClosure?(false)
+                    if self.shouldShowShimmer {
+                        self.shouldShowShimmer = false
+                        self.showNetworkError?()
+                    }
                     return
             }
-
+            self.shouldShowShimmer = false
             self.forecastCellViewModels = list.compactMap { $0.mapToViewModel()}
         }
     }

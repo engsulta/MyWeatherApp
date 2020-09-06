@@ -41,7 +41,7 @@ extension WeatherNetworkClient {
         let currentTask = session.dataTask(with: url,
                                            completionHandler: { (data, response, error) in
             guard let jsonData = data else {
-                DispatchQueue.main.async {completion(nil, NetworkError.noNetwork)}
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {completion(nil, NetworkError.noNetwork)}
                 return}
             do {
                 let responseModel = try JSONDecoder().decode(model, from: jsonData)

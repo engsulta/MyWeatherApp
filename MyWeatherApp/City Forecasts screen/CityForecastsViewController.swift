@@ -14,6 +14,7 @@ class CityForecastsViewController: UITableViewController {
     lazy var modeButton: UIButton = {createBarButton()}()
     lazy var statusBarLabel: UILabel = {statusLabel()}()
     let forecastTableCellId = "ForecastsTableViewCell"
+    let errorCardTag  = 1
     var isLive = true {
         didSet {
             toggleDataSource()
@@ -48,6 +49,12 @@ class CityForecastsViewController: UITableViewController {
             self.handleSucess()
             completion?()
         }
+        viewModel.showNetworkError = { [weak self] in
+            guard let self = self,
+                self.view.viewWithTag(self.errorCardTag) == nil else { return }
+            self.addErrorCard()
+
+        }
     }
 
     fileprivate func handleFailure() {
@@ -57,6 +64,7 @@ class CityForecastsViewController: UITableViewController {
     }
 
     fileprivate func handleSucess() {
+        removeErrorCard()
         statusBarLabel.text = ""
         tableView.reloadData()
         tableView.refreshControl?.endRefreshing()
@@ -123,5 +131,29 @@ extension CityForecastsViewController {
         label.textColor = .red
         label.sizeToFit()
         return label
+    }
+}
+
+extension CityForecastsViewController {
+    fileprivate func addErrorCard() {
+        viewModel.forecastCellViewModels = []
+        let errorCard = UIImageView(image: UIImage(named: "icWarningMid"))
+        view.addSubview(errorCard)
+        errorCard.tag = errorCardTag
+        errorCard.alpha = 0
+        errorCard.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            errorCard.topAnchor.constraint(equalTo: tableView.topAnchor,constant: 250),
+            errorCard.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
+            errorCard.heightAnchor.constraint(equalToConstant: 100),
+            errorCard.widthAnchor.constraint(equalToConstant: 100)
+        ])
+        UIView.animate(withDuration: 0.3) {
+            errorCard.alpha = 1
+        }
+    }
+
+    fileprivate func removeErrorCard() {
+        view.viewWithTag(errorCardTag)?.removeFromSuperview()
     }
 }
