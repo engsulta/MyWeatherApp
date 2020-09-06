@@ -16,7 +16,7 @@ class CityForeCastsViewModel {
 
     var reloadTableClosure: ((Bool)-> Void)?
     var availableDays : [String] = []
-    var shimmerModelRunning: Bool = false
+    var shouldShowShimmer: Bool = false
     var forecastCellViewModels: [ForecastCellViewModel] = [] {
         didSet {
             availableDays = forecastCellViewModels.map {$0.date}.unique()
@@ -31,8 +31,9 @@ class CityForeCastsViewModel {
             }
         }
     }
+
     init() {
-       setupShimmeringModel()
+       loadShimmeringModel()
     }
 
     func fetchForcasts() {
@@ -42,7 +43,7 @@ class CityForeCastsViewModel {
             guard let self = self else {
                 return
             }
-            self.shimmerModelRunning = false
+            self.shouldShowShimmer = false
             guard error == nil,
                 let forcasts = forcastsModel as? ForecastsResponseModel,
                 let list = forcasts.list else {
@@ -63,17 +64,15 @@ class CityForeCastsViewModel {
 }
 
 extension CityForeCastsViewModel {
-    func setupShimmeringModel() {
+    func loadShimmeringModel() {
         let filePath = Bundle.main.path(forResource: "forecasts_stub",
                                         ofType: "json") ?? ""
         guard let data = try? Data(contentsOf: URL(fileURLWithPath: filePath),
                                    options: .alwaysMapped) else { return }
         let decoder = JSONDecoder()
         guard let model = try? decoder.decode(ForecastsResponseModel.self, from: data).list  else {return}
-        DispatchQueue.main.async {
-            self.forecastCellViewModels = model.compactMap { $0.mapToViewModel()}
-            self.shimmerModelRunning = true
-        }
+        self.forecastCellViewModels = model.compactMap { $0.mapToViewModel()}
+        self.shouldShowShimmer = true
     }
 }
 

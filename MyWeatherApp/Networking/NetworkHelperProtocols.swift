@@ -39,5 +39,5 @@ struct Constants {
 enum NetworkError: String, Error{
     case missingURL = "missing URL"
     case faildToDecode = "unable to decode the response"
-    case unknown = "unknown"
+    case noNetwork = "unknown"
 }

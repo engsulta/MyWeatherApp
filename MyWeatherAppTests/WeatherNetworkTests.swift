@@ -87,7 +87,7 @@ class WeatherNetworkTests: XCTestCase {
         for (index, testError) in [
             NetworkError.missingURL,
             NetworkError.faildToDecode,
-            NetworkError.unknown].enumerated() {
+            NetworkError.noNetwork].enumerated() {
                 XCTAssertEqual(testError.rawValue, expected[index])
         }
     }

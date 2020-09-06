@@ -54,10 +54,11 @@ class CityForecastsViewController: UITableViewController {
     }
 
     fileprivate func handleSucess() {
+        statusBarLabel.text = ""
         tableView.reloadData()
         tableView.refreshControl?.endRefreshing()
-        statusBarLabel.text = ""
     }
+
     fileprivate func toggleDataSource() {
         modeButton.setTitle(isLive ? "live" : "cached", for: .normal)
         modeButton.sizeToFit()
@@ -66,9 +67,8 @@ class CityForecastsViewController: UITableViewController {
             self.modeButton.isEnabled = true
         }
     }
-
-
 }
+
 
 //MARK:- table view datasource
 extension CityForecastsViewController {
@@ -80,7 +80,7 @@ extension CityForecastsViewController {
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "forecastsContainerCell", for: indexPath) as? ForecastsTableViewCell else { return UITableViewCell()}
-        cell.isShimmeringRunning = viewModel.shimmerModelRunning
+        cell.isShimmeringRunning = viewModel.shouldShowShimmer
         cell.forecastsVM = viewModel.forcasts(at: indexPath.row)
         return cell
     }
