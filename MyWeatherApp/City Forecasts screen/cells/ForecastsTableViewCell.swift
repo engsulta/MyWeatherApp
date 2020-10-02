@@ -17,7 +17,10 @@ class ForecastsTableViewCell: UITableViewCell {
 
     var forecastsVM: [ForecastCellViewModel] = [] {
         didSet {
-            forecastsCollectionView.reloadData()
+            forecastsCollectionView.performBatchUpdates({ [weak self] in
+                let indexSet = IndexSet(integer: 0)
+                self?.forecastsCollectionView?.reloadSections(indexSet)
+            })
             dayTitle.text = forecastsVM.first?.date ?? ""
             self.layoutIfNeeded()
         }
